@@ -15,8 +15,13 @@ export class StorageWrapper {
         this.storage.setItem(this.key, JSON.stringify(this.value))
         } else {
             throw console.error(' Cannot set an empty object ')
-            
         }
+    }
+
+    getDataFromLocalStorage() {
+
+        return this.storage.getItem(this.key)
+
     }
 
 }
