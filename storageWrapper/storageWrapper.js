@@ -3,7 +3,7 @@ export class StorageWrapper {
     // Required key and value to set 
     constructor(storageType = 'local') {
 
-        this.storage = storageType === 'local' ? localStorage : ''
+        this.storage = storageType === 'local' ? localStorage : '' 
 
     }
 
@@ -18,7 +18,25 @@ export class StorageWrapper {
 
     getDataFromLocalStorage(key) {
 
-        return JSON.parse(this.storage.getItem(key))
+        let value = JSON.parse(this.storage.getItem(key))
+
+        if(value === null) {
+            console.log('This data does not exist')
+        }
+            
+        return value
+        
+    }
+
+    removeData(key) {
+
+        if(this.getDataFromLocalStorage(key) === null ) {
+
+            console.log('This data does not exist')
+
+        }
+        
+        this.storage.removeItem(key)
 
     }
 
