@@ -1,26 +1,24 @@
 export class StorageWrapper {
 
     // Required key and value to set 
-    constructor(key, value, storageType = 'local') {
+    constructor(storageType = 'local') {
 
         this.storage = storageType === 'local' ? localStorage : ''
-        this.key = key
-        this.value = value 
 
     }
 
-    setDataToLocalStorage() {
+    setDataToLocalStorage(key, value) {
 
-        if(this.key !== '' && this.value !== '') {
-        this.storage.setItem(this.key, JSON.stringify(this.value))
+        if(key !== '' && value !== '') {
+        this.storage.setItem(key, JSON.stringify(value))
         } else {
             throw console.error(' Cannot set an empty object ')
         }
     }
 
-    getDataFromLocalStorage() {
+    getDataFromLocalStorage(key) {
 
-        return this.storage.getItem(this.key)
+        return JSON.parse(this.storage.getItem(key))
 
     }
 
