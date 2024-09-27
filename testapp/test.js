@@ -1,9 +1,11 @@
 import { StorageWrapper  } from "../storageWrapper/storageWrapper.js"
 
-const wrapper = new StorageWrapper('User', 'esterhugosson')
+let key = 'User'
+let value = 'esterhugosson'
+
+const wrapper = new StorageWrapper(key, value)
 
 wrapper.setDataToLocalStorage()
 
-const test = new StorageWrapper( '', '')
 
-test.setDataToLocalStorage()
+console.log(wrapper.getDataFromLocalStorage('User'))
