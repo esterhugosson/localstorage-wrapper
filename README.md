@@ -1,5 +1,11 @@
-# localstorage-wrapper
-Simplifie the interaction with localstorage and sessionstorage. 
+# Storage-wrapper
+Simplifie the interaction with localstorage and sessionstorage, making it easier for users to store, retrieve and delete key-value pairs without having to write repetetive code. 
 
 
-hej hej
+# Usage
+
+# Installation 
+
+# Examples
+
+ 
