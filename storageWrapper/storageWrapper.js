@@ -3,7 +3,7 @@ export class StorageWrapper {
     // Required key and value to set 
     constructor(storageType = 'local') {
 
-        this.storage = storageType === 'local' ? localStorage : '' 
+        this.storage = storageType === 'local' ? localStorage : sessionStorage
 
     }
 
@@ -12,7 +12,7 @@ export class StorageWrapper {
         if(key !== '' && value !== '') {
         this.storage.setItem(key, JSON.stringify(value))
         } else {
-            throw console.error(' Cannot set an empty object ')
+            console.error(' Key or value is empty ')
         }
     }
 
