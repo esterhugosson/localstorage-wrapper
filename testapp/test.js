@@ -38,15 +38,27 @@ getButton.addEventListener('click', () => {
 
 //Remove data
 deleteButton.addEventListener('click', () => {
+
+    const key = keyInput.value
+
+    wrapper.removeData(key)
+    resultdiv.innerHTML = `Data for key "${key}" has been removed.`
     
 })
 
 //Toggle storage 
 toggleButton.addEventListener('click', () => {
+
+    wrapper.toggleStorage()
+    storageDiv.innerHTML = `Storage type now being used: ${wrapper.storageType}`
+
     
 })
 
 //Clear storage
 clearButton.addEventListener('click', () => {
+
+    wrapper.clear()
+    resultdiv.innerHTML = 'All data has been cleared from storage.'
     
 })
