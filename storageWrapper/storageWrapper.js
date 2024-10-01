@@ -24,13 +24,7 @@ export class StorageWrapper {
 
 
     //Save data from storage
-    setData(key, value, options = {}) {
-
-        /* if(key !== '' && value !== '') {
-        this.storage.setItem(key, JSON.stringify(value))
-        } else {
-            console.error(' Key or value is empty ')
-        } */
+    setData(key, value, ttl) {
 
         if(key === '') {
             console.error('Key is empty')
@@ -38,9 +32,11 @@ export class StorageWrapper {
             console.error('Value is empty')
         } else {
 
+            const now = new Date()
+
             const data = {
                 value: JSON.stringify(value),
-                expiry: Date.now() + options
+                expiry: now.getTime() + ttl
             }
 
             this.storage.setItem(key, JSON.stringify(data))
@@ -54,13 +50,26 @@ export class StorageWrapper {
     //get specifik data from storage
     getData(key) {
 
-        let value = JSON.parse(this.storage.getItem(key))
+        const value = this.storage.getItem(key)
 
-        if(value === null) {
-            console.log('This data does not exist')
+        //If the value does not exist, return null
+        if(!value) {
+            console.error('This data does not exist')
+            return null
         }
+
+        const valueParsed = JSON.parse(value)
+
+        const now = new Date()
+
+        if(now.getTime() > valueParsed.expiry) {
+            this.storage.removeData(key)
+            return null
+        }
+
+
             
-        return value
+        return valueParsed.value
         
     }
 
