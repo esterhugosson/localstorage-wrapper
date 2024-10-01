@@ -3,12 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Testapplication</title>
 </head>
 <body>
 
-    <h1> Hello </h1>
+    <h1> Write and retrieve key-value pairs and store them in session- or localstorage </h1>
+    <p> This is a test application for module Storage Wrapper. </p>
+    <div id="storageType"> Storage type now being used: </div>
 
+    <h2> Enter key/value/ttl(optional): </h2>
+
+    <form id="form"> 
+
+        <label for="key"> Key:</label>
+        <input type="text" id="key" placeholder="key">
+
+        <label for="value">Value: </label>
+        <input type="text" id="value" placeholder="value" > 
+
+        <label for="ttl"> Expiration: </label>
+        <input type="number" id="ttl" placeholder="expiration in seconds">
+
+        <div>
+        <button type="submit" id="setSubmitButton"> Set </button>
+        <button type="submit" id="getSubmitButton"> Get </button>
+        <button type="submit" id="deleteSubmitButton"> Remove </button>
+        <button type="submit" id="switchSubmitButton"> Toggle </button>
+        <button type="submit" id="clearSubmitButton"> Clear all storage </button>
+        </div>
+
+    </form>
+
+
+    <div id="result">Result: </div>
 
     <script src="./test.js" type="module"></script>
 
