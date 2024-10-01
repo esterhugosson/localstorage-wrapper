@@ -1,15 +1,17 @@
 import { StorageWrapper  } from "../storageWrapper/storageWrapper.js"
 
-let key = 'User'
-let value = [22, 25, 28]
-
 const wrapper = new StorageWrapper()
+const resultdiv = document.getElementById('result')
+const storageDiv = document.getElementById('storageType')
 
-//wrapper.setDataToLocalStorage(key, value)
+//form elements
+const keyInput = document.getElementById('key')
+const valueInput = document.getElementById('value')
+const ttlInput  = document.getElementById('ttl')
 
-
-console.log(wrapper.getDataFromLocalStorage(key))
-
-wrapper.removeData(key)
-
-wrapper.setDataToLocalStorage('This', value)
+//buttons 
+const setButton = document.getElementById('setSubmitButton')
+const getButton = document.getElementById('getSubmitButton')
+const deleteButton = document.getElementById('deleteSubmitButton')
+const toggleButton = document.getElementById('switchSubmitButton')
+const clearButton = document.getElementById('clearSubmitButton')
