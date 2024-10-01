@@ -1,9 +1,19 @@
+/**
+ * The main class for the module Storage Wrapper.
+ */
+
+import { Validator } from "./validate.js"
+
+
+
 export class StorageWrapper {
 
     // Default local storage
     constructor(storageType = 'local') {
 
         this.storage = storageType === 'local' ? localStorage : sessionStorage
+        this.storageType = storageType
+        this.validator = new Validator()
 
     }
 
@@ -24,25 +34,15 @@ export class StorageWrapper {
 
 
     //Save data from storage
-    setData(key, value, ttl) {
+    setData(key, value) {
 
-        if(key === '') {
-            console.error('Key is empty')
-        } else if(value === '') {
-            console.error('Value is empty')
-        } else {
 
-            const now = new Date()
+        //Validate key and value    
+        this.validator.isValidKey(key)
+        this.validator.isValidValue(value)
 
-            const data = {
-                value: JSON.stringify(value),
-                expiry: now.getTime() + ttl
-            }
-
-            this.storage.setItem(key, JSON.stringify(data))
-            console.log(`${key} was saved succesfully in ${this.storageType}storage`)
-
-        }
+        this.storage.setItem(key, JSON.stringify(value))
+        console.log(`${key} was saved succesfully in ${this.storageType}storage`)
 
         
     }
@@ -63,9 +63,12 @@ export class StorageWrapper {
         const now = new Date()
 
         if(now.getTime() > valueParsed.expiry) {
-            this.storage.removeData(key)
+            this.removeData(this.key)
+            console.log('This data is expired')
             return null
         }
+
+        console.log(`Sucessfully retirived the data from key: ${key}, data: ${valueParsed.value}`)
 
 
             
