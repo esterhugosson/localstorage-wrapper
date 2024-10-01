@@ -18,7 +18,13 @@ export class Validator {
         //returns true when both is true
         return value !== undefined && value !== null
 
-    
+    }
+
+    // is TIME TO LIVE, ttl, a number bigger than 0
+    isTTLvalid(ttl) {
+
+        return typeof ttl === 'number' && ttl > 0
+
     }
 
 
