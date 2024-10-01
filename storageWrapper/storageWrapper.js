@@ -33,22 +33,39 @@ export class StorageWrapper {
     }
 
 
-    //Save data from storage
-    setData(key, value) {
+    //Set data to storage with expiration(optional)
+    setData(key, value, ttl = null) {
 
 
-        //Validate key and value    
-        this.validator.isValidKey(key)
-        this.validator.isValidValue(value)
+        //Validate key and value
+        if(!this.validator.isValidKey(key)) {
+            throw new Error('Invalid Key. Please enter a valid key.')
+        }
+        if(!this.validator.isValidValue(value)) {
+            throw new Error('Invalid value. Please enter a valid value.')
+        }
 
-        this.storage.setItem(key, JSON.stringify(value))
+        const data = {
+            value: JSON.stringify(value),
+            expiry: ttl ? new Date().getTime() + ttl : null 
+        }
+
+        this.storage.setItem(key, JSON.stringify(data))
         console.log(`${key} was saved succesfully in ${this.storageType}storage`)
 
         
     }
 
+
     //get specifik data from storage
     getData(key) {
+
+
+        if(!this.validator.isValidKey(key)) {
+            throw new Error('Invalid key. Get data failed.')
+        }
+
+
 
         const value = this.storage.getItem(key)
 
