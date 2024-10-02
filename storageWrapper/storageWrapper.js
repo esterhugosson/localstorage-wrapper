@@ -1,5 +1,6 @@
 /**
  * The main class for the module Storage Wrapper.
+ * @version 1.0.0
  */
 
 import { Validator } from "./validate.js"
@@ -47,13 +48,13 @@ export class StorageWrapper {
 
         //Converting ttl to a number before validation.
         const ttlNumber = ttl ? Number(ttl) : null
-        if(ttlNumber !== null && !this.validator.isTTLvalid(ttlNumber)) {
+        if(ttlNumber !== null && (!this.validator.isTTLvalid(ttlNumber) || isNaN(ttlNumber) )) {
             throw new Error('Invalid expiration. Please enter a valid time.')
         }
 
         const data = {
             value: JSON.stringify(value),
-            expiry: ttl ? new Date().getTime() + ttl * 1000 : null 
+            expiry: ttlNumber ? new Date().getTime() + ttlNumber * 1000 : null 
         }
 
         this.storage.setItem(key, JSON.stringify(data))
