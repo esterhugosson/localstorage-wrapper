@@ -17,6 +17,7 @@ const getButton = document.getElementById('getSubmitButton')
 const deleteButton = document.getElementById('deleteSubmitButton')
 const toggleButton = document.getElementById('switchSubmitButton')
 const clearButton = document.getElementById('clearSubmitButton')
+const availableButton = document.getElementById('avaialbleSubmitButton')
 
 // Set data
 setButton.addEventListener('click', () => {
@@ -66,6 +67,21 @@ clearButton.addEventListener('click', () => {
     resultdiv.innerHTML = 'All data has been cleared from storage.'
     
 }) 
+
+//Availibility
+
+availableButton.addEventListener('click', () => {
+
+    if(wrapper.isLocalStorageAvailable()) {
+
+        resultdiv.innerHTML = 'Localstorage is availble.'
+
+    } else {
+
+        resultdiv.innerHTML = 'Localstorage is not availble.'
+
+    }
+})
 
 
 

@@ -49,6 +49,11 @@ export class StorageWrapper {
             throw new Error('Invalid value. Please enter a valid value.')
         }
 
+        // Check availability
+        if (!this.isLocalStorageAvailable()) {  
+            throw new Error('Localstorage is not available!')
+        }
+
 
         //Converting ttl to a number before validation.
         const ttlNumber = ttl ? Number(ttl) : null
@@ -127,6 +132,21 @@ export class StorageWrapper {
         console.log(`All data has been cleared from ${this.storageType}storage`)
     }
 
+    //Check if localstorage is available
+    isLocalStorageAvailable() {
+
+        // Check if localStorage is null
+        if (this.storage === null ){
+            return false
+        } 
+        try {
+            localStorage.setItem('test', 'test')
+            localStorage.removeItem('test')
+            return true;
+        } catch(e) {
+            return false;
+        }
+    }
 
 
 }
