@@ -1,57 +1,89 @@
-# Storage-wrapper
-Simplifie the interaction with localstorage and sessionstorage, making it easier for users to store, retrieve and delete key-value pairs without having to write repetetive code. 
-You can with this wrapper, set, get and remove items. You can also switch between using localstorage(default) and sessionstorage. 
+# Storage Wrapper
+
+Simplifies the interaction with localStorage and sessionStorage, making it easier for users to store, retrieve, and delete key-value pairs without having to write repetitive code. 
+
+With this wrapper, you can set, get, and remove items. You can also switch between using localStorage (default) and sessionStorage. 
+
 It also supports:
-- Expiration possibility for localstorage items
-- Console messages for success and or errors
-- Check availibility for localStorage
+- Expiration possibility for localStorage items
+- Console messages for success and/or errors
+- Check availability for localStorage
 
-
-# Installation 
+## Installation 
 
 For Node.js or Browserify usage:
 
-`npm i simple-storage-wrapper`
+```
+npm i simple-storage-wrapper
+```
 
-# Example Usage
+## Example Usage
 
 To use the **Storage Wrapper**, first import the module in your JavaScript file:
 
-`import { StorageWrapper } from "./node_modules/simple-storage-wrapper/storageWrapper/storageWrapper.js"`
+```javascript
+import { StorageWrapper } from "./node_modules/simple-storage-wrapper/storageWrapper/storageWrapper.js";
+```
 
-Create an instance of storagewrapper:
+Create an instance of StorageWrapper:
 
-`const storage = new StorageWrapper()`
+```javascript
+const storage = new StorageWrapper();
+```
 
-Set data:
-To set data in localStorage or sessionStorage, use the setData method:
-`storage.setData('myKey', 'myValue', 60); // Key: 'myKey', Value: 'myValue', Time to live: 60 seconds`
+### Set Data
 
-Get data:
-To retrieve data, use the getData method:
-`const value = storage.getData('myKey');console.log(value); // Outputs: 'myValue'
-`
+To set data in localStorage or sessionStorage, use the `setData` method:
 
-Remove data:
-To remove data, use the removeData method:
-`storage.removeData('myKey');`
+```javascript
+storage.setData('myKey', 'myValue', 60); // Key: 'myKey', Value: 'myValue', Time to live: 60 seconds
+```
 
-Toggle Storage Type
-To toggle between localStorage and sessionStorage, use the toggleStorage method:
-`storage.toggleStorage() `
+### Get Data
 
-Clear All Data
-To clear all data from the current storage, use the clear method:
-`storage.clear() `
+To retrieve data, use the `getData` method:
 
-Check Local Storage Availability (This is checked automaticlly before setting data in localstorage)
-To check if localStorage is available, use the isLocalStorageAvailable method:
-`if (!storage.isLocalStorageAvailable()) {
+```javascript
+const value = storage.getData('myKey');
+console.log(value); // Outputs: 'myValue'
+```
+
+### Remove Data
+
+To remove data, use the `removeData` method:
+
+```javascript
+storage.removeData('myKey');
+```
+
+### Toggle Storage Type
+
+To toggle between localStorage and sessionStorage, use the `toggleStorage` method:
+
+```javascript
+storage.toggleStorage();
+```
+
+### Clear All Data
+
+To clear all data from the current storage, use the `clear` method:
+
+```javascript
+storage.clear();
+```
+
+### Check Local Storage Availability
+
+(This is checked automatically before setting data in localStorage)
+
+To check if localStorage is available, use the `isLocalStorageAvailable` method:
+
+```javascript
+if (!storage.isLocalStorageAvailable()) {
     console.log('localStorage is not available.');
 }
-`
+```
 
-# Licens 
-MIT
+## License
 
- 
+This project is licensed under the MIT License.
