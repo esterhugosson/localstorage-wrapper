@@ -4,6 +4,7 @@
  */
 
 import { Validator } from "./validate.js"
+import { StorageAvailibilty } from "./storageAvailability.js"
 
 
 
@@ -15,6 +16,7 @@ export class StorageWrapper {
         this.storage = storageType === 'local' ? localStorage : sessionStorage
         this.storageType = storageType
         this.validator = new Validator()
+        this.availibility = new StorageAvailibilty(this.storage)
 
     }
 
@@ -37,6 +39,10 @@ export class StorageWrapper {
     //Set data to storage with expiration(optional)
     setData(key, value, ttl = null) {
 
+        //Check storage availibility
+        if(!this.availibility.isStorageAvailable()) {
+            throw new Error(`${this.storage} is not available`)
+        }
 
         //Validate key and value
         if(!this.validator.isValidKey(key)) {
