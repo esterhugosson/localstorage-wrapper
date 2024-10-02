@@ -24,7 +24,7 @@ setButton.addEventListener('click', () => {
     const value = valueInput.value
     const ttl = ttlInput.value
 
-    if(ttl === null){
+    if(ttl === ''){
 
     wrapper.setData(key, value)
 

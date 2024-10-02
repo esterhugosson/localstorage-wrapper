@@ -44,7 +44,7 @@ export class StorageWrapper {
         if(!this.validator.isValidValue(value)) {
             throw new Error('Invalid value. Please enter a valid value.')
         }
-        if(!this.validator.isTTLvalid(ttl)) {
+        if(ttl !== null && !this.validator.isTTLvalid(ttl)) {
             throw new Error('Invalid expiration. Please enter a valid time.')
         }
 
