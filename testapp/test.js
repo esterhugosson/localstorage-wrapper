@@ -22,15 +22,10 @@ const clearButton = document.getElementById('clearSubmitButton')
 setButton.addEventListener('click', () => {
     const key = keyInput.value
     const value = valueInput.value
-    const ttl = ttlInput.value
+    const ttl = ttlInput.value // time to live in seconds
 
-    if(ttl === ''){
-
-    wrapper.setData(key, value)
-
-    } else {
-        wrapper.setData(key, value, ttl)
-    }
+    wrapper.setData(key, value, ttl)
+    
     resultdiv.innerHTML = `Data for key "${key}" was successfully set.`
 
 })
@@ -70,4 +65,4 @@ clearButton.addEventListener('click', () => {
     wrapper.clear()
     resultdiv.innerHTML = 'All data has been cleared from storage.'
     
-})
+}) 
