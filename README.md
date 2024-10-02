@@ -1,13 +1,13 @@
-# Storage Wrapper
+# Storage-wrapper
 
-Simplifies the interaction with localStorage and sessionStorage, making it easier for users to store, retrieve, and delete key-value pairs without having to write repetitive code. 
+The **Storage Wrapper** simplifies working with `localStorage` and `sessionStorage` by handling common tasks like stringifying and parsing data behind the scenes. It saves you time by eliminating the need to write repetitive code, making it easier to store, retrieve, and remove key-value pairs with just a few lines.
 
-With this wrapper, you can set, get, and remove items. You can also switch between using localStorage (default) and sessionStorage. 
-
-It also supports:
-- Expiration possibility for localStorage items
-- Console messages for success and/or errors
-- Check availability for localStorage
+### Key Features:
+- Automatically stringifies and parses data, so you don’t have to.
+- Easily toggle between `localStorage` (default) and `sessionStorage`.
+- Supports setting expiration (TTL) for `localStorage` items.
+- Built-in availability checks for `localStorage`.
+- Clear and consistent console messages for success or errors.
 
 ## Installation 
 
