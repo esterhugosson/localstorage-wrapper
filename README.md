@@ -4,13 +4,14 @@ You can with this wrapper, set, get and remove items. You can also switch betwee
 It also supports:
 - Expiration possibility for localstorage items
 - Console messages for success and or errors
+- Check availibility for localStorage
 
 
 # Installation 
 
 For Node.js or Browserify usage:
 
-npm i storageWrapper
+`npm i simple-storage-wrapper`
 
 # Usage
 
