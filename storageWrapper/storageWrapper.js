@@ -42,12 +42,9 @@ export class StorageWrapper {
     setData(key, value, ttl = null) {
 
         //Validate key and value
-        if(!this.validator.isValidKey(key)) {
-            throw new Error('Invalid Key. Please enter a valid key.')
-        }
-        if(!this.validator.isValidValue(value)) {
-            throw new Error('Invalid value. Please enter a valid value.')
-        }
+        this.#validateKey(key)
+        this.#validateValue(value)
+        
 
         // Check availability
         if (!this.isLocalStorageAvailable()) {  
@@ -56,10 +53,7 @@ export class StorageWrapper {
 
 
         //Converting ttl to a number before validation.
-        const ttlNumber = ttl ? Number(ttl) : null
-        if(ttlNumber !== null && (!this.validator.isTTLvalid(ttlNumber) || isNaN(ttlNumber) )) {
-            throw new Error('Invalid expiration. Please enter a valid time.')
-        }
+        const ttlNumber = this.#validateTTL(ttl)
 
         const data = {
             value: JSON.stringify(value),
@@ -76,12 +70,13 @@ export class StorageWrapper {
     //get specifik data from storage
     getData(key) {
 
+        // validate key
+        this.#validateKey(key)
 
-        if(!this.validator.isValidKey(key)) {
-            console.error('Invalid key. Get data failed.')
-            return null
+        // Check availability
+        if (!this.isLocalStorageAvailable()) {  
+            throw new Error('Localstorage is not available!')
         }
-
 
         const storedData = this.storage.getItem(key)
 
@@ -110,10 +105,13 @@ export class StorageWrapper {
     // remove certain key and its value from storage
     removeData(key) {
 
-        if(!this.validator.isValidKey(key)) {
-            console.error('Invalid key. Data removal failed.')
-            return
+        // Check availability
+        if (!this.isLocalStorageAvailable()) {  
+            throw new Error('Localstorage is not available!')
         }
+
+        //check key
+        this.#validateKey(key)
 
         if(!this.storage.getItem(key)) {
             console.error(`Data for ${key} does not exist. Removal failed.`)
@@ -135,17 +133,49 @@ export class StorageWrapper {
     //Check if localstorage is available
     isLocalStorageAvailable() {
 
-        // Check if localStorage is null
+        // Check if localStorage is not available
         if (this.storage === null ){
             return false
         } 
         try {
             localStorage.setItem('test', 'test')
             localStorage.removeItem('test')
-            return true;
+            return true
+
         } catch(e) {
-            return false;
+            return false
         }
+    }
+
+    //Validation of key
+    #validateKey(key) {
+
+        if(!this.validator.isValidKey(key)) {
+            console.error('Invalid key. Get data failed.')
+            return null
+        }
+
+    }
+
+    //Validation of value
+    #validateValue(value) {
+
+        if(!this.validator.isValidValue(value)) {
+            throw new Error('Invalid value. Please enter a valid value.')
+        }
+
+    }
+
+    //Validation of ttl
+    #validateTTL(ttl) {
+
+        const ttlNumber = ttl ? Number(ttl) : null
+        if(ttlNumber !== null && (!this.validator.isTTLvalid(ttlNumber) || isNaN(ttlNumber) )) {
+            throw new Error('Invalid expiration. Please enter a valid time.')
+        }
+
+        return ttlNumber
+
     }
 
 

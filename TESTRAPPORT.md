@@ -33,6 +33,15 @@
 - **Actual Result**: StorageWrapper throws error, invalid time.
 - **Outcome**: ❌
 
+### Test Case 3.1: Set Data with Expiration (TTL)
+- **Test Steps**:
+  1. Set `Key: "testTtl"`, `Value: "testValueTtl"`, and `TTL: 5` seconds.
+  2. Wait 6 seconds.
+  3. Attempt to get the value for `testKey`.
+- **Expected Result**: Data should be expired and automatically removed.
+- **Actual Result**: Data is expired and removed automaticlly, message: Data for key testTtl is expired and been removed. is shown.
+- **Outcome**: ✅
+
 ### Test Case 4: Toggle between Local and Session Storage
 - **Test Steps**:
   1. Store a value in localStorage.
@@ -84,13 +93,21 @@
 - **Actual Result**: Data is stored an no error is thrown. 
 - **Outcome**: ❌
 
-### Test Case 10: Set pair with expiration and retrieve before expiry / still not working now setting ttl
+### Test Case 9.1: Set pair without value
+- **Test Steps**:
+  1. Set `Key: "testKey"`, `Value: " "`.
+  2. Check if the value is stored.
+- **Expected Result**: An error should be thrown, and no data should be stored.
+- **Actual Result**: An error is thrown, no data i shown and error message shown. 
+- **Outcome**: ✅
+
+### Test Case 10: Set pair with expiration and retrieve before expiry 
 - **Test Steps**:
   1. Set `Key: "testKey"`, `Value: "testValue"`, `TTL: 10` (10 seconds).
   2. Retrieve the value before 10 seconds.
 - **Expected Result**: Data should still be available before expiry.
-- **Actual Result**: 
-- **Outcome**: ✅/❌
+- **Actual Result**: Data is retrieved and success message is shown.
+- **Outcome**: ✅
 
 ### Test case 11: Clear all storage
 -**Test Steps**:
@@ -101,8 +118,37 @@
 -**Actual Result**: All data has been cleared from storage and message is shown.
 -**Outcome**: ✅
 
+### Test Case 12: Attempt to Set Data When LocalStorage is Unavailable
+- **Test Steps**:
+  1. Simulate localStorage unavailability by setting `localStorage` to `null`. In webbconsole: Object.defineProperty(window, "localStorage", {value: null})
+  2. Attempt to set a value with `Key: "testKey"`, `Value: "testValue"`.
+- **Expected Result**: An error should be thrown indicating that localStorage is not available, and no data should be stored.
+- **Actual Result**: An error is thrown and no data is stored. 
+- **Outcome**: ✅
+
+### Test Case 13: Attempt to Get Data When LocalStorage is Unavailable
+- **Test Steps**:
+  1. Simulate localStorage unavailability by setting `localStorage` to `null`.
+  2. Attempt to get data with `Key: "testKey"`.
+- **Expected Result**: An error should be logged indicating that localStorage is not available, and no data should be retrieved.
+- **Actual Result**: An error is shown that localstorage is now available. 
+- **Outcome**: ✅
+
+### Test Case 14: Attempt to Remove Data When LocalStorage is Unavailable
+- **Test Steps**:
+  1. Simulate localStorage unavailability by setting `localStorage` to `null`.
+  2. Attempt to remove data with `Key: "testKey"`.
+- **Expected Result**: An error should be thrown indicating that localStorage is not available, and no data should be removed.
+- **Actual Result**: Error thrown, localStorage is not available.
+- **Outcome**: ✅
+
 ### Conclusion of first try
 - Summary of test results: 
   - Passed: 8/11 
   - Failed: 3/11
 - Potential issues found and improvements: Problem with ttl and setting data with no value.
+
+### Conclusion of second try
+- Summary of test results: 
+  - Passed: 14/14
+  - Failed: 0/14
