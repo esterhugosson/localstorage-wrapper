@@ -4,6 +4,8 @@ const wrapper = new StorageWrapper()
 const resultdiv = document.getElementById('result')
 const storageDiv = document.getElementById('storageType')
 
+storageDiv.innerHTML = 'Storage type now being used: local'
+
 //form elements
 const keyInput = document.getElementById('key')
 const valueInput = document.getElementById('value')
@@ -20,9 +22,16 @@ const clearButton = document.getElementById('clearSubmitButton')
 setButton.addEventListener('click', () => {
     const key = keyInput.value
     const value = valueInput.value
-    const ttl = ttlInput.value ? parseInt(ttlInput.value) : null
+    const ttl = ttlInput.value
 
-    wrapper.setData(key, value, ttl)
+    if(ttl === null){
+
+    wrapper.setData(key, value)
+
+    } else {
+        wrapper.setData(key, value, ttl)
+    }
+    resultdiv.innerHTML = `Data for key "${key}" was successfully set.`
 
 })
 
