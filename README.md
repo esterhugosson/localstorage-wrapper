@@ -15,6 +15,13 @@ For Node.js or Browserify usage:
 
 # Usage
 
+To use the **Storage Wrapper**, first import the module in your JavaScript file:
+
+import { StorageWrapper } from "./node_modules/simple-storage-wrapper/storageWrapper/storageWrapper.js"
+
+Create an instance of storagewrapper:
+
+const storage = new StorageWrapper()
 
 # Examples
 
