@@ -16,7 +16,7 @@ export class Validator {
     isValidValue(value) {
 
         //returns true when both is true
-        return value !== undefined && value !== null
+        return value !== undefined && value !== null && value.trim() !== ''
 
     }
 
