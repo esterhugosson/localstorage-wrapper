@@ -44,7 +44,10 @@ export class StorageWrapper {
         if(!this.validator.isValidValue(value)) {
             throw new Error('Invalid value. Please enter a valid value.')
         }
-        if(ttl !== null && !this.validator.isTTLvalid(ttl)) {
+
+        //Converting ttl to a number before validation.
+        const ttlNumber = ttl ? Number(ttl) : null
+        if(ttlNumber !== null && !this.validator.isTTLvalid(ttlNumber)) {
             throw new Error('Invalid expiration. Please enter a valid time.')
         }
 
