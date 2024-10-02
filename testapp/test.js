@@ -66,3 +66,6 @@ clearButton.addEventListener('click', () => {
     resultdiv.innerHTML = 'All data has been cleared from storage.'
     
 }) 
+
+
+

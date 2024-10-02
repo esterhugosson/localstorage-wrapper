@@ -4,7 +4,6 @@
  */
 
 import { Validator } from "./validate.js"
-import { StorageAvailibilty } from "./storageAvailability.js"
 
 
 
@@ -16,20 +15,23 @@ export class StorageWrapper {
         this.storage = storageType === 'local' ? localStorage : sessionStorage
         this.storageType = storageType
         this.validator = new Validator()
-        this.availibility = new StorageAvailibilty(this.storage)
-
     }
 
     //Toggle between local and session storage
     toggleStorage() {
 
         if(this.storage === localStorage) {
+
             this.storage = sessionStorage
             this.storageType = 'session'
+
             console.log('Now using Sessionstorage')
+
         } else if(this.storage === sessionStorage) {
+
             this.storage = localStorage
             this.storageType = 'local'
+
             console.log('Now using Localstorage')
         }
 
@@ -39,11 +41,6 @@ export class StorageWrapper {
     //Set data to storage with expiration(optional)
     setData(key, value, ttl = null) {
 
-        //Check storage availibility
-        if(!this.availibility.isStorageAvailable()) {
-            throw new Error(`${this.storage} is not available`)
-        }
-
         //Validate key and value
         if(!this.validator.isValidKey(key)) {
             throw new Error('Invalid Key. Please enter a valid key.')
@@ -51,6 +48,7 @@ export class StorageWrapper {
         if(!this.validator.isValidValue(value)) {
             throw new Error('Invalid value. Please enter a valid value.')
         }
+
 
         //Converting ttl to a number before validation.
         const ttlNumber = ttl ? Number(ttl) : null
@@ -128,5 +126,7 @@ export class StorageWrapper {
         this.storage.clear()
         console.log(`All data has been cleared from ${this.storageType}storage`)
     }
+
+
 
 }
