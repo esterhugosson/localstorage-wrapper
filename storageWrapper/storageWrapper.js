@@ -4,42 +4,47 @@
  */
 
 import { Validator } from "./validate.js"
+import { Logger } from "./logger.js"
 
 
 
 export class StorageWrapper {
 
-    // Default local storage
+    
     constructor(storageType = 'local') {
 
+        // Default local storage
         this.storage = storageType === 'local' ? localStorage : sessionStorage
+
         this.storageType = storageType
+
         this.validator = new Validator()
+        this.logger = new Logger()
     }
 
     //Toggle between local and session storage
-    toggleStorage() {
+    switchStorageType() { //switchStorageType
 
         if(this.storage === localStorage) {
 
             this.storage = sessionStorage
             this.storageType = 'session'
 
-            console.log('Now using Sessionstorage')
+            this.logger.logInfo('Now using Sessionstorage')
 
         } else if(this.storage === sessionStorage) {
 
             this.storage = localStorage
             this.storageType = 'local'
 
-            console.log('Now using Localstorage')
+            this.logger.logInfo('Now using Localstorage')
         }
 
     }
 
 
     //Set data to storage with expiration(optional)
-    setData(key, value, ttl = null) {
+    storeData(key, value, ttl = null) { //storeData
 
         //Validate key and value
         this.#validateKey(key)
@@ -68,7 +73,7 @@ export class StorageWrapper {
 
 
     //get specifik data from storage
-    getData(key) {
+    retrieveData(key) { //retrieveData
 
         // validate key
         this.#validateKey(key)
@@ -124,58 +129,21 @@ export class StorageWrapper {
 
     }
 
-    //remove all data from storage
-    clear() {
+    clearAllStorage() { 
         this.storage.clear()
         console.log(`All data has been cleared from ${this.storageType}storage`)
     }
 
-    //Check if localstorage is available
-    isLocalStorageAvailable() {
-
-        // Check if localStorage is not available
-        if (this.storage === null ){
-            return false
-        } 
+    isStorageAccessible() { 
         try {
-            localStorage.setItem('test', 'test')
-            localStorage.removeItem('test')
+
+            this.storage.setItem('test', 'test')
+            this.storage.removeItem('test')
             return true
 
         } catch(e) {
             return false
         }
-    }
-
-    //Validation of key
-    #validateKey(key) {
-
-        if(!this.validator.isValidKey(key)) {
-            console.error('Invalid key. Get data failed.')
-            return null
-        }
-
-    }
-
-    //Validation of value
-    #validateValue(value) {
-
-        if(!this.validator.isValidValue(value)) {
-            throw new Error('Invalid value. Please enter a valid value.')
-        }
-
-    }
-
-    //Validation of ttl
-    #validateTTL(ttl) {
-
-        const ttlNumber = ttl ? Number(ttl) : null
-        if(ttlNumber !== null && (!this.validator.isTTLvalid(ttlNumber) || isNaN(ttlNumber) )) {
-            throw new Error('Invalid expiration. Please enter a valid time.')
-        }
-
-        return ttlNumber
-
     }
 
 
