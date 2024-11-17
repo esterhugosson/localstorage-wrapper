@@ -25,7 +25,7 @@ setButton.addEventListener('click', () => {
     const value = valueInput.value
     const ttl = ttlInput.value // time to live in seconds
 
-    wrapper.setData(key, value, ttl)
+    wrapper.storeData(key, value, ttl)
     
     resultdiv.innerHTML = `Data for key "${key}" was successfully set.`
 
@@ -36,7 +36,7 @@ getButton.addEventListener('click', () => {
 
     const key = keyInput.value
 
-    const data = wrapper.getData(key)
+    const data = wrapper.retrieveData(key)
     resultdiv.innerHTML = data ? `Data for key "${key}": ${data}` : `No data found for key "${key}".`
     
 })
@@ -54,7 +54,7 @@ deleteButton.addEventListener('click', () => {
 //Toggle storage 
 toggleButton.addEventListener('click', () => {
 
-    wrapper.toggleStorage()
+    wrapper.switchStorageType()
     storageDiv.innerHTML = `Storage type now being used: ${wrapper.storageType}`
 
     
@@ -63,7 +63,7 @@ toggleButton.addEventListener('click', () => {
 //Clear storage
 clearButton.addEventListener('click', () => {
 
-    wrapper.clear()
+    wrapper.clearAllStorage()
     resultdiv.innerHTML = 'All data has been cleared from storage.'
     
 }) 
@@ -72,16 +72,18 @@ clearButton.addEventListener('click', () => {
 
 availableButton.addEventListener('click', () => {
 
-    if(wrapper.isLocalStorageAvailable()) {
+    if(wrapper.isStorageAccessible()) {
 
-        resultdiv.innerHTML = 'Localstorage is availble.'
+        resultdiv.innerHTML = 'Storage is availble.'
 
     } else {
 
-        resultdiv.innerHTML = 'Localstorage is not availble.'
+        resultdiv.innerHTML = 'Storage is not availble.'
 
     }
 })
+
+
 
 
 
