@@ -4,8 +4,6 @@
  */
 
 import { Validator } from "./validate.js"
-import { Logger } from "./logger.js"
-
 
 
 export class StorageWrapper {
@@ -19,132 +17,134 @@ export class StorageWrapper {
         this.storageType = storageType
 
         this.validator = new Validator()
-        this.logger = new Logger()
     }
 
-    //Toggle between local and session storage
-    switchStorageType() { //switchStorageType
 
-        if(this.storage === localStorage) {
 
-            this.storage = sessionStorage
-            this.storageType = 'session'
 
-            this.logger.logInfo('Now using Sessionstorage')
+    switchStorageType() { 
 
-        } else if(this.storage === sessionStorage) {
-
-            this.storage = localStorage
-            this.storageType = 'local'
-
-            this.logger.logInfo('Now using Localstorage')
-        }
+        this.storage = this.storage === localStorage ? sessionStorage : localStorage
+        this.storageType = this.storage === localStorage ? 'local' : 'session'
 
     }
+
+
 
 
     //Set data to storage with expiration(optional)
-    storeData(key, value, ttl = null) { //storeData
+    storeData(key, value, expirationTimeSec = null) { 
 
-        //Validate key and value
-        this.#validateKey(key)
-        this.#validateValue(value)
-        
+        this.#checkStorageAvailibility()
 
-        // Check availability
-        if (!this.isLocalStorageAvailable()) {  
-            throw new Error('Localstorage is not available!')
-        }
+        this.validator.validateKey(key)
+        this.validator.validateValue(value)
 
-
-        //Converting ttl to a number before validation.
-        const ttlNumber = this.#validateTTL(ttl)
-
-        const data = {
-            value: JSON.stringify(value),
-            expiry: ttlNumber ? new Date().getTime() + ttlNumber * 1000 : null 
-        }
+        const data = this.#prepareData(value, expirationTimeSec)
 
         this.storage.setItem(key, JSON.stringify(data))
-        console.log(`${key} was saved succesfully in ${this.storageType}storage`)
+    }
 
-        
+    #prepareData(value, expirationTimeSec) {
+
+        const numberExpirationTimeSec = this.#convertExpirationToNumber(expirationTimeSec)
+        this.#validateExpiration(numberExpirationTimeSec)
+
+        return this.#createDataObject(value, numberExpirationTimeSec)
+
+    }
+
+    #createDataObject(value, numberExpirationTimeSec) {
+        const MS_IN_SECOND = 1000;
+
+        return { 
+            value: JSON.stringify(value),
+            expiry: numberExpirationTimeSec ? new Date().getTime() + numberExpirationTimeSec * MS_IN_SECOND : null 
+        }
+    }
+
+    #convertExpirationToNumber(expirationTimeSec) {
+
+        const numberExpiration = expirationTimeSec ? Number(expirationTimeSec) : null
+
+        return numberExpiration
+    }
+
+    #validateExpiration(numberExpiration) {
+        if(numberExpiration != null) {
+            this.validator.validateExpiration(numberExpiration) 
+        }
     }
 
 
-    //get specifik data from storage
-    retrieveData(key) { //retrieveData
 
-        // validate key
-        this.#validateKey(key)
 
-        // Check availability
-        if (!this.isLocalStorageAvailable()) {  
-            throw new Error('Localstorage is not available!')
-        }
+    retrieveData(key) {
 
-        const storedData = this.storage.getItem(key)
+        
+        this.validator.validateKey(key)
+        this.#checkStorageAvailibility()
 
-        //If the value does not exist for given key
-        if(!storedData) {
-            console.error(`Data does not exist in ${this.storageType} for given key: ${key}`)
+        const dataParsed = this.#getStoredItem(key)
+
+        if(this.#isExpired(dataParsed)) {
+            this.#handleExpiredData(key)
             return null
         }
 
-        const dataParsed = JSON.parse(storedData)
-
-
-        //Expiration controll (if data has an expiration time)
-        if(dataParsed.expiry && new Date().getTime() > dataParsed.expiry) {
-            this.removeData(key)
-            console.log(`Data for key ${key} is expired and been removed.`)
-            return null
-        }
-
-
-        console.log(`Sucessfully retirived the data from key: ${key}`)
         return JSON.parse(dataParsed.value)
         
     }
 
-    // remove certain key and its value from storage
-    removeData(key) {
-
-        // Check availability
-        if (!this.isLocalStorageAvailable()) {  
-            throw new Error('Localstorage is not available!')
+    #getStoredItem(key) {
+        const storedData = this.storage.getItem(key)
+        if (!storedData) {
+            throw new Error(`Data does not exist in ${this.storageType}`)
+        } else {
+        return JSON.parse(storedData)
         }
+    }
 
-        //check key
-        this.#validateKey(key)
+    #isExpired(dataParsed) {
+        return dataParsed.expiry && new Date().getTime() > dataParsed.expiry
+    }
 
-        if(!this.storage.getItem(key)) {
-            console.error(`Data for ${key} does not exist. Removal failed.`)
-            return
+    #handleExpiredData(key) {
+        this.removeData(key)
+    }
+
+
+
+    removeData(key) { 
+        this.validator.validateKey(key)
+        this.#checkStorageAvailibility()
+
+        if(!this.#getStoredItem(key)) {
+            throw new Error(`Removel faild: Data for ${key} does not exist.`)
         }
-        
 
         this.storage.removeItem(key)
-        console.log(` Data for key: ${key} has been sucessfully removed from ${this.storageType}storage`)
+       
 
     }
 
     clearAllStorage() { 
         this.storage.clear()
-        console.log(`All data has been cleared from ${this.storageType}storage`)
     }
 
-    isStorageAccessible() { 
-        try {
+    #checkStorageAvailibility() {
+        if(!this.#isStorageAccessible) {
+            throw new Error('Storage is not available!')
+        }
+    }
 
+    #isStorageAccessible() { 
+        try {
             this.storage.setItem('test', 'test')
             this.storage.removeItem('test')
             return true
-
         } catch(e) {
             return false
         }
     }
-
-
 }
