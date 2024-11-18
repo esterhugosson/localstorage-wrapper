@@ -7,6 +7,7 @@ The **Storage Wrapper** simplifies working with `localStorage` and `sessionStora
 - Easily toggle between `localStorage` (default) and `sessionStorage`.
 - Supports setting expiration for `localStorage` items.
 - Built-in availability checks for storage in use
+- Validating key, value and expiration input. 
 
 
 ## Installation 
@@ -28,7 +29,7 @@ import { StorageWrapper } from "./node_modules/simple-storage-wrapper/storageWra
 Create an instance of StorageWrapper:
 
 ```javascript
-const storage = new StorageWrapper();
+const wrapper = new StorageWrapper();
 ```
 
 ### These are the 5 methods you can use:
@@ -36,17 +37,17 @@ const storage = new StorageWrapper();
 To set data in localStorage or sessionStorage, use the `setData` method:
 
 ```javascript
-storage.storeData('myKey', 'myValue', 60); // Key: 'myKey', Value: 'myValue', Expiration: 60 seconds
+wrapper.storeData('myKey', 'myValue', 60); // Key: 'myKey', Value: 'myValue', Expiration: 60 seconds
 
-const value = storage.retrievdate('myKey');
+const value = wrapper.retrievdate('myKey');
 console.log(value); // Outputs: 'myValue'
 
-storage.removeData('myKey');
+wrapper.removeData('myKey');
 
 
-storage.switchStorageType(); // To toggle between localStorage and sessionStorage
+wrapper.switchStorageType(); // To toggle between localStorage(default) and sessionStorage
 
-storage.clearAllStorage(); // To clear all data from the current storage
+wrapper.clearAllStorage(); // To clear all data from the current storage
 ```
 
 

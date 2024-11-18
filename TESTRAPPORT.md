@@ -12,7 +12,7 @@
   1. Open the test application.
   2. Input `Key: "testKey"` and `Value: "testValue"`.
   3. Click on the "Set" button.
-- **Expected Result**: `testKey` should be saved successfully in localStorage, with a success message displayed.
+- **Expected Result**: `testKey` should be saved successfully in localStorage.
 - **Actual Result**: The testKey is saved in localstorage, as expected result. 
 - **Outcome**: ✅ 
 
@@ -21,10 +21,10 @@
   1. Click on "Get Data" with `Key: "testKey"`.
   2. Check if the correct value is retrieved.
 - **Expected Result**: `testValue` should be returned and displayed.
-- **Actual Result**: Testvalue is retrieved and sucessmessages is shown. 
+- **Actual Result**: Testvalue is retrieved.
 - **Outcome**: ✅
 
-### Test Case 3: Set Data with Expiration (TTL)
+### Test Case 3: Set Data with Expiration (expiration)
 - **Test Steps**:
   1. Set `Key: "testTtl"`, `Value: "testValueTtl"`, and `TTL: 5` seconds.
   2. Wait 6 seconds.
@@ -39,7 +39,7 @@
   2. Wait 6 seconds.
   3. Attempt to get the value for `testKey`.
 - **Expected Result**: Data should be expired and automatically removed.
-- **Actual Result**: Data is expired and removed automaticlly, message: Data for key testTtl is expired and been removed. is shown.
+- **Actual Result**: Data is expired and removed automaticlly
 - **Outcome**: ✅
 
 ### Test Case 4: Toggle between Local and Session Storage
@@ -149,6 +149,11 @@
 - Potential issues found and improvements: Problem with ttl and setting data with no value.
 
 ### Conclusion of second try
+- Summary of test results: 
+  - Passed: 14/14
+  - Failed: 0/14
+
+### Conclusion of third try
 - Summary of test results: 
   - Passed: 14/14
   - Failed: 0/14
